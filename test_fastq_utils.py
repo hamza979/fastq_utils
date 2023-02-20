@@ -1,6 +1,6 @@
 import fastq_utils
 
-def test_addition(capsys):
-	fastq_utils.add(2,3)
+def test_sequence_count(capsys):
+	fastq_utils.count_sequences("test1.fastq")
 	captured=capsys.readouterr()
-	assert captured.out.strip() == "2 + 3 = 5"
+	assert captured.out.strip() == "Number of sequences: 1000"
