@@ -1,20 +1,26 @@
 import argparse
+import gzip
+
+def open_file(filename):
+    if filename.endswith(".gz"):
+        return gzip.open(filename, "rt")
+    else:
+        return open(filename, "r")
 
 def count_sequences(filename):
     """Count the number of non-blank lines in a FASTQ file and divide by 4"""
-    with open(filename, "r") as file:
+    with open_file(filename) as file:
         count = 0
         for line in file:
             if line.strip():
                 count += 1
-    count=count // 4
+    count = count // 4
     print(f"Number of sequences: {count}")
-    
-    
+
 def count_nucleotides(filename):
     """Sum the len of each field 2 line"""
     count = 0
-    with open(filename, "r") as file:
+    with open_file(filename) as file:
         for i, line in enumerate(file):
             if i % 4 == 1:
                 count += len(line.strip())
@@ -32,7 +38,6 @@ def main():
         count_sequences(args.filename)
     elif args.count_nucleotides:
         count_nucleotides(args.filename)
-
 
 if __name__ == "__main__":
     main()
